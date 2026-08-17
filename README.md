@@ -16,6 +16,10 @@ Denominador = Q(TIPO = Emisión) − Q(TIPO = Cancelada)
 
 **Meta:** 80,7%
 
+## Dashboard
+
+[`dashboard.html`](dashboard.html) — vista gerencial con estado por agencia (semáforo crítico/cerca de meta/verificar dato), gráfico comparativo vs. meta y detalle completo. Descarga el archivo y ábrelo en el navegador (GitHub no renderiza HTML interactivo en la vista del repo).
+
 ## Resultado
 
 | Agencia | Numerador | Emisión | Cancelada | Denominador (neto) | Tasa Instalación | Meta | Brecha | Cumple |
@@ -37,6 +41,7 @@ Denominador = Q(TIPO = Emisión) − Q(TIPO = Cancelada)
 
 ```
 ├── README.md
+├── dashboard.html                       # dashboard gerencial (semáforo operativo + gráfico + detalle)
 ├── datos/
 │   ├── numerador_p12_filtrado.csv       # detalle de instalaciones completadas AT/BAF (fuente: p12)
 │   └── denominador_maestro_ventas.csv   # detalle completo de órdenes Emisión/Cancelada (fuente: Maestro_Ventas)
