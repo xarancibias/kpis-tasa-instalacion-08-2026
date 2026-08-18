@@ -1,4 +1,4 @@
-<title>Tasa de Instalación BAF</title>
+﻿<title>Tasa de InstalaciÃ³n BAF</title>
 <style>
   :root {
     color-scheme: light;
@@ -23,6 +23,10 @@
     --status-warning-bg:  rgba(201,133,0,0.13);
     --status-critical-bg: rgba(208,59,59,0.11);
     --status-anomaly-bg:  rgba(74,58,167,0.11);
+
+    --series-1: #2a78d6;
+    --series-2: #1baf7a;
+    --series-3: #e87ba4;
 
     --shadow: 0 1px 2px rgba(15,34,51,0.06), 0 8px 24px -12px rgba(15,34,51,0.18);
   }
@@ -51,6 +55,10 @@
       --status-critical-bg: rgba(239,106,106,0.14);
       --status-anomaly-bg:  rgba(144,133,233,0.16);
 
+      --series-1: #3987e5;
+      --series-2: #199e70;
+      --series-3: #d55181;
+
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
     }
   }
@@ -77,6 +85,10 @@
     --status-warning-bg:  rgba(250,178,25,0.14);
     --status-critical-bg: rgba(239,106,106,0.14);
     --status-anomaly-bg:  rgba(144,133,233,0.16);
+
+    --series-1: #3987e5;
+    --series-2: #199e70;
+    --series-3: #d55181;
 
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
   }
@@ -133,15 +145,29 @@
     font-size: 14.5px;
     color: color-mix(in srgb, var(--navy-ink) 80%, transparent);
   }
-  .period-badge {
-    border: 1px solid color-mix(in srgb, var(--navy-ink) 30%, transparent);
-    border-radius: 6px;
-    padding: 9px 14px;
-    font-size: 12.5px;
-    color: color-mix(in srgb, var(--navy-ink) 92%, transparent);
-    white-space: nowrap;
+  .period-picker {
+    display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
   }
-  .period-badge b { display: block; font-size: 14px; color: var(--navy-ink); margin-bottom: 2px; }
+  .period-picker label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--navy-ink) 65%, transparent);
+  }
+  .period-picker select {
+    appearance: none;
+    background: color-mix(in srgb, var(--navy) 40%, black 10%);
+    border: 1px solid color-mix(in srgb, var(--navy-ink) 30%, transparent);
+    color: var(--navy-ink);
+    font: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 9px 34px 9px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23eaf1f8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
+  .period-picker select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   /* ---------- Sections ---------- */
   section { padding: 36px 32px 0; }
@@ -192,7 +218,7 @@
   .hero-meta-row { display: flex; align-items: center; gap: 14px; }
   .hero-meta-row .k { font-size: 12.5px; color: var(--ink-muted); width: 110px; flex: none; }
   .hero-meta-bar { flex: 1; height: 10px; background: var(--surface-2); border-radius: 100px; position: relative; overflow: visible; }
-  .hero-meta-bar .fill { height: 100%; border-radius: 100px; background: var(--status-critical); }
+  .hero-meta-bar .fill { height: 100%; border-radius: 100px; }
   .hero-meta-bar .tick { position: absolute; top: -3px; width: 2px; height: 16px; background: var(--ink); opacity: 0.55; }
   .hero-meta-row .v { font-size: 13.5px; font-weight: 700; font-variant-numeric: tabular-nums; width: 56px; text-align: right; flex: none; }
   .hero-note { font-size: 12.5px; color: var(--ink-muted); border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 2px; }
@@ -214,6 +240,7 @@
   .zone-card .stripe { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 10px 0 0 10px; }
   .zone-card.critical .stripe { background: var(--status-critical); }
   .zone-card.warning .stripe { background: var(--status-warning); }
+  .zone-card.good .stripe { background: var(--status-good); }
   .zone-card.anomaly .stripe { background: var(--status-anomaly); }
   .zone-name { font-size: 15px; font-weight: 700; margin: 0 0 2px; padding-left: 10px; }
   .zone-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
@@ -225,7 +252,7 @@
   .zone-stats div b { display: block; font-variant-numeric: tabular-nums; font-size: 14px; color: var(--ink); font-weight: 700; }
   .zone-stats div span { color: var(--ink-muted); }
 
-  /* ---------- Chart ---------- */
+  /* ---------- Chart cards ---------- */
   .chart-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -233,12 +260,14 @@
     box-shadow: var(--shadow);
     padding: 20px 24px 8px;
   }
-  .chart-card svg { width: 100%; height: auto; display: block; }
+  .chart-card svg { width: 100%; height: auto; display: block; overflow: visible; }
   .chart-legend { display: flex; gap: 18px; flex-wrap: wrap; padding: 4px 4px 18px; font-size: 12.5px; color: var(--ink-secondary); }
   .chart-legend .item { display: flex; align-items: center; gap: 6px; }
   .chart-legend .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
-  .bar-mark { transition: opacity 0.15s ease; }
-  .bar-mark:hover { opacity: 0.82; }
+  .chart-legend .ln { width: 14px; height: 2px; flex: none; }
+  .bar-mark, .line-dot { transition: opacity 0.15s ease; cursor: pointer; }
+  .bar-mark:hover, .line-dot:hover { opacity: 0.82; }
+  .empty-state { padding: 28px 4px 20px; color: var(--ink-muted); font-size: 13.5px; }
 
   /* ---------- Table ---------- */
   .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); background: var(--surface); }
@@ -250,7 +279,8 @@
   }
   thead th:first-child, tbody td:first-child { text-align: left; }
   tbody td { padding: 12px 16px; text-align: right; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
-  tbody tr:last-child td { border-bottom: none; font-weight: 700; background: var(--surface-2); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr.total-row td { font-weight: 700; background: var(--surface-2); }
   tbody td.name { font-weight: 600; font-variant-numeric: normal; }
   td.estado { text-align: left; }
 
@@ -284,11 +314,14 @@
   <div class="masthead">
     <div class="masthead-row">
       <div>
-        <p class="eyebrow">ELECNOR <span class="dot">·</span> OPERACIONES BAF <span class="dot">·</span> REGIÓN VALPARAÍSO</p>
-        <h1>Tasa de Instalación BAF</h1>
-        <p class="sub">Cruce TOA (P12) × Maestro de Ventas — desempeño frente a meta por agencia zonal</p>
+        <p class="eyebrow">ELECNOR <span class="dot">Â·</span> OPERACIONES BAF <span class="dot">Â·</span> REGIÃ“N VALPARAÃSO</p>
+        <h1>Tasa de InstalaciÃ³n BAF</h1>
+        <p class="sub">Cruce TOA Ã— Maestro de Ventas â€” desempeÃ±o frente a meta por agencia zonal</p>
       </div>
-      <div class="period-badge">Agosto 2026 · días 01–15</div>
+      <div class="period-picker">
+        <label for="period-select">PerÃ­odo</label>
+        <select id="period-select" aria-label="Seleccionar perÃ­odo"></select>
+      </div>
     </div>
   </div>
 
@@ -296,163 +329,41 @@
     <div class="section-head"><h2>Resumen ejecutivo</h2></div>
     <div class="hero">
       <div class="hero-figure">
-        <p class="label">Tasa de instalación total</p>
+        <p class="label">Tasa de instalaciÃ³n total</p>
         <div class="hero-number">
-          <span class="value">50,3%</span>
-          <span class="vs">de 80,7% meta</span>
+          <span class="value" id="hero-total-value">â€”</span>
+          <span class="vs" id="hero-total-vs">â€”</span>
         </div>
-        <span class="status-chip critical"><span class="swatch"></span>Crítico · -30,4 pts vs. meta</span>
+        <span class="status-chip" id="hero-total-chip"><span class="swatch"></span><span id="hero-total-chip-text">â€”</span></span>
       </div>
-      <div class="hero-meta">
-        <div class="hero-meta-row">
-          <span class="k">Valparaíso</span>
-          <div class="hero-meta-bar"><div class="fill" style="width:17.8%; background:var(--status-critical);"></div><div class="tick" style="left:57.6%;"></div></div>
-          <span class="v">24,9%</span>
-        </div>
-        <div class="hero-meta-row">
-          <span class="k">Viña del Mar</span>
-          <div class="hero-meta-bar"><div class="fill" style="width:56.1%; background:var(--status-warning);"></div><div class="tick" style="left:57.6%;"></div></div>
-          <span class="v">78,6%</span>
-        </div>
-        <div class="hero-meta-row">
-          <span class="k">San Antonio</span>
-          <div class="hero-meta-bar"><div class="fill" style="width:95.8%; background:var(--status-anomaly);"></div><div class="tick" style="left:57.6%;"></div></div>
-          <span class="v">134,1%</span>
-        </div>
-        <p class="hero-note">La marca vertical indica la meta (80,7%). Escala 0–140% para que las tres barras sean comparables en el mismo eje.</p>
-      </div>
+      <div class="hero-meta" id="hero-meta-rows"></div>
     </div>
   </section>
 
   <section aria-label="Detalle por agencia">
-    <div class="section-head"><h2>Por agencia zonal</h2><span class="hint">Numerador: TOA, complete + XA_WORK_TYPE_ID “AT” · Denominador: Emisión − Cancelada</span></div>
-    <div class="zone-grid">
-
-      <div class="zone-card critical">
-        <div class="stripe"></div>
-        <div class="zone-card-top">
-          <h3 class="zone-name">Valparaíso</h3>
-          <span class="status-chip critical"><span class="swatch"></span>Crítico</span>
-        </div>
-        <div class="zone-number">24,9%</div>
-        <div class="zone-mini-bar"><div class="fill" style="width:17.8%; background:var(--status-critical);"></div><div class="tick" style="left:57.6%;"></div></div>
-        <div class="zone-stats">
-          <div><span>Numerador</span><b>341</b></div>
-          <div><span>Denominador</span><b>1.369</b></div>
-          <div><span>Emisión</span><b>1.541</b></div>
-          <div><span>Cancelada</span><b>172</b></div>
-        </div>
-      </div>
-
-      <div class="zone-card warning">
-        <div class="stripe"></div>
-        <div class="zone-card-top">
-          <h3 class="zone-name">Viña del Mar</h3>
-          <span class="status-chip warning"><span class="swatch"></span>Cerca de meta</span>
-        </div>
-        <div class="zone-number">78,6%</div>
-        <div class="zone-mini-bar"><div class="fill" style="width:56.1%; background:var(--status-warning);"></div><div class="tick" style="left:57.6%;"></div></div>
-        <div class="zone-stats">
-          <div><span>Numerador</span><b>659</b></div>
-          <div><span>Denominador</span><b>838</b></div>
-          <div><span>Emisión</span><b>927</b></div>
-          <div><span>Cancelada</span><b>89</b></div>
-        </div>
-      </div>
-
-      <div class="zone-card anomaly">
-        <div class="stripe"></div>
-        <div class="zone-card-top">
-          <h3 class="zone-name">San Antonio</h3>
-          <span class="status-chip anomaly"><span class="swatch"></span>Verificar dato</span>
-        </div>
-        <div class="zone-number">134,1%</div>
-        <div class="zone-mini-bar"><div class="fill" style="width:95.8%; background:var(--status-anomaly);"></div><div class="tick" style="left:57.6%;"></div></div>
-        <div class="zone-stats">
-          <div><span>Numerador</span><b>177</b></div>
-          <div><span>Denominador</span><b>132</b></div>
-          <div><span>Emisión</span><b>145</b></div>
-          <div><span>Cancelada</span><b>13</b></div>
-        </div>
-      </div>
-
-    </div>
+    <div class="section-head"><h2>Por agencia zonal</h2><span class="hint">Numerador: TOA, complete + XA_WORK_TYPE_ID â€œATâ€ Â· Denominador: EmisiÃ³n âˆ’ Cancelada</span></div>
+    <div class="zone-grid" id="zone-grid"></div>
   </section>
 
-  <section aria-label="Gráfico comparativo">
-    <div class="section-head"><h2>Tasa vs. meta por agencia</h2><span class="hint">Meta: 80,7%</span></div>
+  <section aria-label="GrÃ¡fico comparativo">
+    <div class="section-head"><h2 id="bar-chart-title">Tasa vs. meta por agencia</h2><span class="hint" id="bar-chart-hint">â€”</span></div>
     <div class="chart-card">
-      <svg viewBox="0 0 600 320" role="img" aria-label="Gráfico de barras: tasa de instalación por agencia comparada con la meta de 80,7 por ciento">
-        <!-- gridlines -->
-        <g font-size="11" fill="var(--ink-muted)" font-family="inherit">
-          <line x1="50" y1="280" x2="565" y2="280" stroke="var(--ink-muted)" stroke-opacity="0.55" stroke-width="1"/>
-          <line x1="50" y1="236.67" x2="565" y2="236.67" stroke="var(--gridline)" stroke-width="1"/>
-          <line x1="50" y1="193.33" x2="565" y2="193.33" stroke="var(--gridline)" stroke-width="1"/>
-          <line x1="50" y1="150" x2="565" y2="150" stroke="var(--gridline)" stroke-width="1"/>
-          <line x1="50" y1="106.67" x2="565" y2="106.67" stroke="var(--gridline)" stroke-width="1"/>
-          <line x1="50" y1="63.33" x2="565" y2="63.33" stroke="var(--gridline)" stroke-width="1"/>
-          <line x1="50" y1="20" x2="565" y2="20" stroke="var(--gridline)" stroke-width="1"/>
-          <text x="42" y="284" text-anchor="end">0%</text>
-          <text x="42" y="240.67" text-anchor="end">25%</text>
-          <text x="42" y="197.33" text-anchor="end">50%</text>
-          <text x="42" y="154" text-anchor="end">75%</text>
-          <text x="42" y="110.67" text-anchor="end">100%</text>
-          <text x="42" y="67.33" text-anchor="end">125%</text>
-          <text x="42" y="24" text-anchor="end">150%</text>
-        </g>
-
-        <!-- divider before Total -->
-        <line x1="385" y1="20" x2="385" y2="280" stroke="var(--border-strong)" stroke-width="1" stroke-dasharray="2 4"/>
-
-        <!-- meta reference line -->
-        <line x1="50" y1="140.13" x2="565" y2="140.13" stroke="var(--accent)" stroke-width="1.75" stroke-dasharray="5 4"/>
-        <text x="568" y="144" font-size="11.5" font-weight="700" fill="var(--accent)">Meta 80,7%</text>
-
-        <!-- bars -->
-        <path class="bar-mark" d="M60,280 L60,240.84 Q60,236.84 64,236.84 L126,236.84 Q130,236.84 130,240.84 L130,280 Z" fill="var(--status-critical)">
-          <title>Valparaíso — Tasa 24,9% (341/1.369) — Meta 80,7% — Brecha -55,8 pts</title>
-        </path>
-        <path class="bar-mark" d="M170,280 L170,147.76 Q170,143.76 174,143.76 L236,143.76 Q240,143.76 240,147.76 L240,280 Z" fill="var(--status-warning)">
-          <title>Viña del Mar — Tasa 78,6% (659/838) — Meta 80,7% — Brecha -2,1 pts</title>
-        </path>
-        <path class="bar-mark" d="M280,280 L280,51.5 Q280,47.5 284,47.5 L346,47.5 Q350,47.5 350,51.5 L350,280 Z" fill="var(--status-anomaly)">
-          <title>San Antonio — Tasa 134,1% (177/132) — Meta 80,7% — dato a validar</title>
-        </path>
-        <path class="bar-mark" d="M420,280 L420,196.81 Q420,192.81 424,192.81 L486,192.81 Q490,192.81 490,196.81 L490,280 Z" fill="var(--status-critical)" fill-opacity="0.82">
-          <title>Total — Tasa 50,3% (1.177/2.339) — Meta 80,7% — Brecha -30,4 pts</title>
-        </path>
-
-        <!-- value labels -->
-        <g font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle" font-family="inherit">
-          <text x="95" y="230.84">24,9%</text>
-          <text x="205" y="137.76">78,6%</text>
-          <text x="315" y="41.5">134,1%</text>
-          <text x="455" y="186.81">50,3%</text>
-        </g>
-
-        <!-- category labels -->
-        <g font-size="12.5" fill="var(--ink-secondary)" text-anchor="middle" font-family="inherit">
-          <text x="95" y="299">Valparaíso</text>
-          <text x="205" y="299">Viña del Mar</text>
-          <text x="315" y="299">San Antonio</text>
-          <text x="455" y="299" font-weight="700" letter-spacing="0.03em">TOTAL</text>
-        </g>
-      </svg>
+      <svg id="bar-chart" viewBox="0 0 600 320" role="img" aria-label="GrÃ¡fico de barras: tasa de instalaciÃ³n por agencia comparada con la meta"></svg>
       <div class="chart-legend">
-        <span class="item"><span class="sw" style="background:var(--status-critical);"></span>Crítico (brecha &gt; 5 pts)</span>
-        <span class="item"><span class="sw" style="background:var(--status-warning);"></span>Cerca de meta (± 5 pts)</span>
+        <span class="item"><span class="sw" style="background:var(--status-critical);"></span>CrÃ­tico (brecha &gt; 5 pts)</span>
+        <span class="item"><span class="sw" style="background:var(--status-warning);"></span>Cerca de meta (Â± 5 pts)</span>
         <span class="item"><span class="sw" style="background:var(--status-good);"></span>Cumple meta</span>
         <span class="item"><span class="sw" style="background:var(--status-anomaly);"></span>Verificar dato</span>
       </div>
     </div>
   </section>
 
-  <section aria-label="Anomalía de datos">
+  <section aria-label="AnomalÃ­a de datos" id="callout-section" style="display:none;">
     <div class="callout">
-      <span class="icon">⚠️</span>
+      <span class="icon">âš ï¸</span>
       <div>
-        <h3>San Antonio: 134,1% requiere validación antes de reportar</h3>
-        <p>El numerador (TOA-P12) solo cubre el 1–15 de agosto, mientras el denominador (Maestro_Ventas) incluye órdenes emitidas en julio y completadas en agosto — el desfase temporal entre ambas fuentes puede inflar la tasa. Se recomienda conciliar por número de orden individual antes de usar esta cifra en decisiones de gestión.</p>
+        <h3 id="callout-title">â€”</h3>
+        <p id="callout-body">â€”</p>
       </div>
     </div>
   </section>
@@ -465,7 +376,7 @@
           <tr>
             <th>Agencia</th>
             <th>Numerador</th>
-            <th>Emisión</th>
+            <th>EmisiÃ³n</th>
             <th>Cancelada</th>
             <th>Denominador</th>
             <th>Tasa</th>
@@ -474,57 +385,328 @@
             <th class="estado">Estado</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td class="name">Valparaíso</td>
-            <td>341</td><td>1.541</td><td>172</td><td>1.369</td>
-            <td>24,9%</td><td>80,7%</td><td>-55,8 pts</td>
-            <td class="estado"><span class="status-chip critical"><span class="swatch"></span>Crítico</span></td>
-          </tr>
-          <tr>
-            <td class="name">Viña del Mar</td>
-            <td>659</td><td>927</td><td>89</td><td>838</td>
-            <td>78,6%</td><td>80,7%</td><td>-2,1 pts</td>
-            <td class="estado"><span class="status-chip warning"><span class="swatch"></span>Cerca de meta</span></td>
-          </tr>
-          <tr>
-            <td class="name">San Antonio</td>
-            <td>177</td><td>145</td><td>13</td><td>132</td>
-            <td>134,1%</td><td>80,7%</td><td>+53,4 pts</td>
-            <td class="estado"><span class="status-chip anomaly"><span class="swatch"></span>Verificar dato</span></td>
-          </tr>
-          <tr>
-            <td class="name">Total</td>
-            <td>1.177</td><td>2.613</td><td>274</td><td>2.339</td>
-            <td>50,3%</td><td>80,7%</td><td>-30,4 pts</td>
-            <td class="estado"><span class="status-chip critical"><span class="swatch"></span>Crítico</span></td>
-          </tr>
-        </tbody>
+        <tbody id="detail-table-body"></tbody>
       </table>
     </div>
   </section>
 
-  <section aria-label="Metodología">
-    <div class="section-head"><h2>Metodología</h2></div>
+  <section aria-label="HistÃ³rico mensual">
+    <div class="section-head"><h2>HistÃ³rico mensual</h2><span class="hint">EvoluciÃ³n de la tasa por agencia, perÃ­odo contra perÃ­odo</span></div>
+    <div class="chart-card" id="historico-card">
+      <svg id="historico-chart" viewBox="0 0 600 300" role="img" aria-label="GrÃ¡fico de lÃ­neas: evoluciÃ³n mensual de la tasa de instalaciÃ³n por agencia"></svg>
+      <div class="chart-legend" id="historico-legend"></div>
+      <div class="empty-state" id="historico-empty" style="display:none;">AÃºn hay un solo perÃ­odo cargado â€” el histÃ³rico se irÃ¡ construyendo a medida que se acumulen mÃ¡s meses.</div>
+    </div>
+  </section>
+
+  <section aria-label="MetodologÃ­a">
+    <div class="section-head"><h2>MetodologÃ­a</h2></div>
     <div class="method-grid">
       <div class="method-card">
         <h3>Numerador</h3>
-        <p>Fuente <code>p12_TOA_ELECNOR_2026-08</code>, agrupado por <code>XA_ORIGINAL_AGENCY_NAME</code>, contando <code>APPT_NUMBER_CD</code> donde <code>STATUS_CD = complete</code> y <code>XA_WORK_TYPE_ID</code> inicia con “AT” (productos BAF).</p>
+        <p>Fuente <code>pXX_TOA_ELECNOR_AAAA-MM</code>, agrupado por <code>XA_ORIGINAL_AGENCY_NAME</code>, contando <code>APPT_NUMBER_CD</code> donde <code>STATUS_CD = complete</code> y <code>XA_WORK_TYPE_ID</code> inicia con â€œATâ€ (productos BAF).</p>
       </div>
       <div class="method-card">
         <h3>Denominador</h3>
-        <p>Fuente <code>Maestro_Ventas_Elecnor_2026-08</code>, agrupado por <code>AGENCIA_ZONAL_INSTALACION</code>, contando <code>ORDEN</code>: Q(Emisión) − Q(Cancelada).</p>
+        <p>Fuente <code>Maestro_Ventas_Elecnor_AAAA-MM</code>, agrupado por <code>AGENCIA_ZONAL_INSTALACION</code>, contando <code>ORDEN</code>: Q(EmisiÃ³n) âˆ’ Q(Cancelada).</p>
       </div>
       <div class="method-card">
-        <h3>Meta</h3>
-        <p>80,7% — umbral fijado por gerencia para el período P12 (agosto 2026). El estado “cerca de meta” aplica dentro de ± 5 puntos porcentuales.</p>
+        <h3>Estados</h3>
+        <p>Cumple meta â‰¥ meta Â· Cerca de meta dentro de âˆ’5 pts Â· CrÃ­tico bajo âˆ’5 pts Â· Verificar dato si la tasa supera 100% (posible desfase entre fuentes).</p>
       </div>
     </div>
   </section>
 
   <footer>
-    <span>ELECNOR · Operaciones BAF Región Valparaíso — uso interno</span>
-    <span>Generado 16 ago 2026 · fuentes: TOA P12, Maestro de Ventas</span>
+    <span>ELECNOR Â· Operaciones BAF RegiÃ³n ValparaÃ­so â€” uso interno</span>
+    <span id="footer-generated">â€”</span>
   </footer>
 
 </div>
+
+<script type="application/json" id="kpi-data">
+[
+
+]
+</script>
+<script>
+(function () {
+  var raw = JSON.parse(document.getElementById('kpi-data').textContent);
+  var AGENCY_LABELS = { 'VALPARAISO': 'ValparaÃ­so', 'VINA DEL MAR': 'ViÃ±a del Mar', 'SAN ANTONIO': 'San Antonio' };
+  var SERIES_COLORS = ['var(--series-1)', 'var(--series-2)', 'var(--series-3)'];
+
+  function agencyLabel(a) { return AGENCY_LABELS[a] || a; }
+  function fmtPct(n) { return n.toLocaleString('es-CL', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%'; }
+  function fmtPts(n) { var s = n >= 0 ? '+' : ''; return s + n.toLocaleString('es-CL', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' pts'; }
+  function fmtInt(n) { return n.toLocaleString('es-CL'); }
+
+  function statusOf(tasa, meta) {
+    if (tasa >= 100) return { cls: 'anomaly', label: 'Verificar dato' };
+    if (tasa >= meta) return { cls: 'good', label: 'Cumple meta' };
+    if (tasa >= meta - 5) return { cls: 'warning', label: 'Cerca de meta' };
+    return { cls: 'critical', label: 'CrÃ­tico' };
+  }
+
+  var periods = Array.from(new Set(raw.map(function (r) { return r.periodo; }))).sort();
+  var select = document.getElementById('period-select');
+  periods.forEach(function (p) {
+    var opt = document.createElement('option');
+    opt.value = p; opt.textContent = p;
+    select.appendChild(opt);
+  });
+  var latest = periods[periods.length - 1];
+  select.value = latest;
+  select.addEventListener('change', function () { render(select.value); });
+
+  function rowsFor(periodo) { return raw.filter(function (r) { return r.periodo === periodo; }); }
+
+  function computeTotal(rows) {
+    var numerador = rows.reduce(function (s, r) { return s + r.numerador; }, 0);
+    var emision = rows.reduce(function (s, r) { return s + r.emision; }, 0);
+    var cancelada = rows.reduce(function (s, r) { return s + r.cancelada; }, 0);
+    var denominador = emision - cancelada;
+    var meta = rows.length ? rows[0].meta : 0;
+    var tasa = denominador ? (numerador / denominador) * 100 : 0;
+    return { agencia: 'TOTAL', numerador: numerador, emision: emision, cancelada: cancelada, denominador: denominador, meta: meta, tasa: tasa, brecha: tasa - meta };
+  }
+
+  function render(periodo) {
+    var rows = rowsFor(periodo);
+    var total = computeTotal(rows);
+    var totalStatus = statusOf(total.tasa, total.meta);
+
+    document.getElementById('hero-total-value').textContent = fmtPct(total.tasa);
+    document.getElementById('hero-total-vs').textContent = 'de ' + fmtPct(total.meta) + ' meta';
+    var chip = document.getElementById('hero-total-chip');
+    chip.className = 'status-chip ' + totalStatus.cls;
+    document.getElementById('hero-total-chip-text').textContent = totalStatus.label + ' Â· ' + fmtPts(total.brecha) + ' vs. meta';
+
+    var scaleMax = Math.max(150, Math.ceil(Math.max.apply(null, rows.map(function (r) { return r.tasa; }).concat([total.tasa, total.meta])) * 1.15 / 25) * 25);
+
+    var heroWrap = document.getElementById('hero-meta-rows');
+    heroWrap.innerHTML = '';
+    rows.forEach(function (r) {
+      var st = statusOf(r.tasa, r.meta);
+      var row = document.createElement('div');
+      row.className = 'hero-meta-row';
+      row.innerHTML =
+        '<span class="k">' + agencyLabel(r.agencia) + '</span>' +
+        '<div class="hero-meta-bar"><div class="fill" style="width:' + (Math.min(r.tasa, scaleMax) / scaleMax * 100) + '%; background:var(--status-' + (st.cls === 'anomaly' ? 'anomaly' : st.cls) + ');"></div><div class="tick" style="left:' + (r.meta / scaleMax * 100) + '%;"></div></div>' +
+        '<span class="v">' + fmtPct(r.tasa) + '</span>';
+      heroWrap.appendChild(row);
+    });
+    var note = document.createElement('p');
+    note.className = 'hero-note';
+    note.textContent = 'La marca vertical indica la meta (' + fmtPct(rows.length ? rows[0].meta : 0) + '). Escala 0â€“' + scaleMax + '% para que las barras sean comparables en el mismo eje.';
+    heroWrap.appendChild(note);
+
+    var zoneGrid = document.getElementById('zone-grid');
+    zoneGrid.innerHTML = '';
+    rows.forEach(function (r) {
+      var st = statusOf(r.tasa, r.meta);
+      var card = document.createElement('div');
+      card.className = 'zone-card ' + st.cls;
+      card.innerHTML =
+        '<div class="stripe"></div>' +
+        '<div class="zone-card-top"><h3 class="zone-name">' + agencyLabel(r.agencia) + '</h3>' +
+        '<span class="status-chip ' + st.cls + '"><span class="swatch"></span>' + st.label + '</span></div>' +
+        '<div class="zone-number">' + fmtPct(r.tasa) + '</div>' +
+        '<div class="zone-mini-bar"><div class="fill" style="width:' + (Math.min(r.tasa, scaleMax) / scaleMax * 100) + '%; background:var(--status-' + st.cls + ');"></div><div class="tick" style="left:' + (r.meta / scaleMax * 100) + '%;"></div></div>' +
+        '<div class="zone-stats">' +
+        '<div><span>Numerador</span><b>' + fmtInt(r.numerador) + '</b></div>' +
+        '<div><span>Denominador</span><b>' + fmtInt(r.denominador) + '</b></div>' +
+        '<div><span>EmisiÃ³n</span><b>' + fmtInt(r.emision) + '</b></div>' +
+        '<div><span>Cancelada</span><b>' + fmtInt(r.cancelada) + '</b></div>' +
+        '</div>';
+      zoneGrid.appendChild(card);
+    });
+
+    document.getElementById('bar-chart-hint').textContent = 'Meta: ' + fmtPct(total.meta);
+    renderBarChart(rows, total, scaleMax);
+
+    var anomalies = rows.filter(function (r) { return r.tasa >= 100; });
+    var calloutSection = document.getElementById('callout-section');
+    if (anomalies.length) {
+      calloutSection.style.display = '';
+      document.getElementById('callout-title').textContent =
+        anomalies.map(function (r) { return agencyLabel(r.agencia) + ': ' + fmtPct(r.tasa); }).join(' Â· ') + ' requiere validaciÃ³n antes de reportar';
+      document.getElementById('callout-body').textContent =
+        'El numerador (TOA) y el denominador (Maestro_Ventas) pueden cubrir ventanas de fechas distintas dentro del mismo perÃ­odo â€” el desfase temporal entre ambas fuentes puede inflar la tasa por encima del 100%. Se recomienda conciliar por nÃºmero de orden individual antes de usar esta cifra en decisiones de gestiÃ³n.';
+    } else {
+      calloutSection.style.display = 'none';
+    }
+
+    var tbody = document.getElementById('detail-table-body');
+    tbody.innerHTML = '';
+    rows.concat([total]).forEach(function (r, i) {
+      var isTotal = i === rows.length;
+      var st = statusOf(r.tasa, r.meta);
+      var tr = document.createElement('tr');
+      if (isTotal) tr.className = 'total-row';
+      tr.innerHTML =
+        '<td class="name">' + (isTotal ? 'Total' : agencyLabel(r.agencia)) + '</td>' +
+        '<td>' + fmtInt(r.numerador) + '</td>' +
+        '<td>' + fmtInt(r.emision) + '</td>' +
+        '<td>' + fmtInt(r.cancelada) + '</td>' +
+        '<td>' + fmtInt(r.denominador) + '</td>' +
+        '<td>' + fmtPct(r.tasa) + '</td>' +
+        '<td>' + fmtPct(r.meta) + '</td>' +
+        '<td>' + fmtPts(r.brecha) + '</td>' +
+        '<td class="estado"><span class="status-chip ' + st.cls + '"><span class="swatch"></span>' + st.label + '</span></td>';
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('footer-generated').textContent = 'PerÃ­odo mostrado: ' + periodo + ' Â· fuentes: TOA, Maestro de Ventas';
+  }
+
+  function renderBarChart(rows, total, scaleMax) {
+    var svg = document.getElementById('bar-chart');
+    svg.innerHTML = '';
+    var ns = 'http://www.w3.org/2000/svg';
+    var left = 50, right = 565, top = 20, base = 280;
+    var items = rows.concat([total]);
+    var n = items.length;
+    var slot = (right - left - 40) / n;
+    var barW = Math.min(70, slot * 0.55);
+
+    function el(tag, attrs) {
+      var e = document.createElementNS(ns, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+    function yFor(v) { return base - (Math.min(v, scaleMax) / scaleMax) * (base - top); }
+
+    var gGrid = el('g', { 'font-size': 11, fill: 'var(--ink-muted)' });
+    svg.appendChild(gGrid);
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (f) {
+      var v = scaleMax * f;
+      var y = yFor(v);
+      gGrid.appendChild(el('line', { x1: left, y1: y, x2: right, y2: y, stroke: f === 0 ? 'var(--ink-muted)' : 'var(--gridline)', 'stroke-opacity': f === 0 ? 0.55 : 1, 'stroke-width': 1 }));
+      var t = el('text', { x: left - 8, y: y + 4, 'text-anchor': 'end' });
+      t.textContent = Math.round(v) + '%';
+      gGrid.appendChild(t);
+    });
+
+    var metaY = yFor(total.meta);
+    svg.appendChild(el('line', { x1: left, y1: metaY, x2: right, y2: metaY, stroke: 'var(--accent)', 'stroke-width': 1.75, 'stroke-dasharray': '5 4' }));
+    var metaLabel = el('text', { x: right + 3, y: metaY + 4, 'font-size': 11.5, 'font-weight': 700, fill: 'var(--accent)' });
+    metaLabel.textContent = 'Meta';
+    svg.appendChild(metaLabel);
+
+    items.forEach(function (r, i) {
+      var isTotal = i === items.length - 1;
+      var cx = left + 20 + slot * i + slot / 2 + (isTotal ? 20 : 0);
+      var x = cx - barW / 2;
+      var y = yFor(r.tasa);
+      var st = statusOf(r.tasa, r.meta);
+      var rr = 4;
+      var h = base - y;
+      var d = h > rr
+        ? 'M' + x + ',' + base + ' L' + x + ',' + (y + rr) + ' Q' + x + ',' + y + ' ' + (x + rr) + ',' + y + ' L' + (x + barW - rr) + ',' + y + ' Q' + (x + barW) + ',' + y + ' ' + (x + barW) + ',' + (y + rr) + ' L' + (x + barW) + ',' + base + ' Z'
+        : 'M' + x + ',' + base + ' L' + x + ',' + y + ' L' + (x + barW) + ',' + y + ' L' + (x + barW) + ',' + base + ' Z';
+      var path = el('path', { d: d, fill: 'var(--status-' + st.cls + ')', class: 'bar-mark' });
+      if (isTotal) path.setAttribute('fill-opacity', '0.82');
+      var title = document.createElementNS(ns, 'title');
+      title.textContent = (isTotal ? 'Total' : agencyLabel(r.agencia)) + ' â€” Tasa ' + fmtPct(r.tasa) + ' (' + fmtInt(r.numerador) + '/' + fmtInt(r.denominador) + ') â€” Meta ' + fmtPct(r.meta) + ' â€” ' + st.label;
+      path.appendChild(title);
+      svg.appendChild(path);
+
+      var val = el('text', { x: cx, y: y - 8, 'font-size': 13, 'font-weight': 700, fill: 'var(--ink)', 'text-anchor': 'middle' });
+      val.textContent = fmtPct(r.tasa);
+      svg.appendChild(val);
+
+      var lbl = el('text', { x: cx, y: base + 19, 'font-size': 12.5, fill: 'var(--ink-secondary)', 'text-anchor': 'middle' });
+      if (isTotal) { lbl.setAttribute('font-weight', '700'); lbl.setAttribute('letter-spacing', '0.03em'); lbl.textContent = 'TOTAL'; }
+      else lbl.textContent = agencyLabel(r.agencia);
+      svg.appendChild(lbl);
+    });
+  }
+
+  function renderHistorico() {
+    var svg = document.getElementById('historico-chart');
+    var legend = document.getElementById('historico-legend');
+    var empty = document.getElementById('historico-empty');
+    svg.innerHTML = '';
+    legend.innerHTML = '';
+
+    if (periods.length < 2) {
+      empty.style.display = '';
+      svg.style.display = 'none';
+      return;
+    }
+    empty.style.display = 'none';
+    svg.style.display = '';
+
+    var agencies = Array.from(new Set(raw.map(function (r) { return r.agencia; })));
+    var meta = raw.length ? raw[0].meta : 0;
+    var allTasas = raw.map(function (r) { return r.tasa; }).concat([meta]);
+    var scaleMax = Math.max(150, Math.ceil(Math.max.apply(null, allTasas) * 1.15 / 25) * 25);
+
+    var ns = 'http://www.w3.org/2000/svg';
+    var left = 50, right = 560, top = 20, base = 260;
+    function el(tag, attrs) {
+      var e = document.createElementNS(ns, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+    function yFor(v) { return base - (Math.min(v, scaleMax) / scaleMax) * (base - top); }
+    function xFor(i) { return periods.length === 1 ? (left + right) / 2 : left + (right - left) * (i / (periods.length - 1)); }
+
+    var gGrid = el('g', { 'font-size': 11, fill: 'var(--ink-muted)' });
+    svg.appendChild(gGrid);
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (f) {
+      var v = scaleMax * f;
+      var y = yFor(v);
+      gGrid.appendChild(el('line', { x1: left, y1: y, x2: right, y2: y, stroke: f === 0 ? 'var(--ink-muted)' : 'var(--gridline)', 'stroke-opacity': f === 0 ? 0.55 : 1, 'stroke-width': 1 }));
+      var t = el('text', { x: left - 8, y: y + 4, 'text-anchor': 'end' });
+      t.textContent = Math.round(v) + '%';
+      gGrid.appendChild(t);
+    });
+    periods.forEach(function (p, i) {
+      var t = el('text', { x: xFor(i), y: base + 20, 'font-size': 12, fill: 'var(--ink-secondary)', 'text-anchor': 'middle' });
+      t.textContent = p;
+      svg.appendChild(t);
+    });
+
+    var metaY = yFor(meta);
+    svg.appendChild(el('line', { x1: left, y1: metaY, x2: right, y2: metaY, stroke: 'var(--accent)', 'stroke-width': 1.75, 'stroke-dasharray': '5 4' }));
+    var metaLabel = el('text', { x: right + 3, y: metaY + 4, 'font-size': 11, 'font-weight': 700, fill: 'var(--accent)' });
+    metaLabel.textContent = 'Meta';
+    svg.appendChild(metaLabel);
+
+    agencies.forEach(function (agencia, ai) {
+      var color = SERIES_COLORS[ai % SERIES_COLORS.length];
+      var pts = periods.map(function (p, i) {
+        var rec = raw.filter(function (r) { return r.periodo === p && r.agencia === agencia; })[0];
+        return rec ? { x: xFor(i), y: yFor(rec.tasa), r: rec } : null;
+      });
+      var pathD = '';
+      pts.forEach(function (pt, i) {
+        if (!pt) return;
+        pathD += (pathD === '' ? 'M' : 'L') + pt.x + ',' + pt.y + ' ';
+      });
+      svg.appendChild(el('path', { d: pathD.trim(), fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+      pts.forEach(function (pt) {
+        if (!pt) return;
+        var dot = el('circle', { cx: pt.x, cy: pt.y, r: 4, fill: color, stroke: 'var(--surface)', 'stroke-width': 2, class: 'line-dot' });
+        var title = document.createElementNS(ns, 'title');
+        title.textContent = agencyLabel(agencia) + ' â€” ' + pt.r.periodo + ' â€” ' + fmtPct(pt.r.tasa);
+        dot.appendChild(title);
+        svg.appendChild(dot);
+      });
+
+      var item = document.createElement('span');
+      item.className = 'item';
+      item.innerHTML = '<span class="ln" style="background:' + color + ';"></span>' + agencyLabel(agencia);
+      legend.appendChild(item);
+    });
+    var metaItem = document.createElement('span');
+    metaItem.className = 'item';
+    metaItem.innerHTML = '<span class="ln" style="background:var(--accent); opacity:0.8;"></span>Meta';
+    legend.appendChild(metaItem);
+  }
+
+  render(latest);
+  renderHistorico();
+})();
+</script>
