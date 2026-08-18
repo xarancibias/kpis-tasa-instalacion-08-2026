@@ -20,7 +20,7 @@ Denominador = Q(TIPO = Emisión) − Q(TIPO = Cancelada)
 
 ## Dashboard
 
-[`dashboard.html`](dashboard.html) / [`index.html`](index.html) — vista gerencial con selector de período, semáforo por agencia, gráfico vs. meta, tabla de detalle y **histórico mensual** (evolución de la tasa por agencia a través de los períodos cargados). Es la misma página, publicada automáticamente en GitHub Pages en el link de arriba.
+[`dashboard.html`](dashboard.html) / [`index.html`](index.html) — vista gerencial con logo y colores corporativos de Elecnor (azul `#003A85`, naranja `#FD7900`, extraídos directamente del logo oficial), selector de período, semáforo operativo por agencia, gráfico vs. meta, tabla de detalle y **histórico mensual** (evolución de la tasa por agencia a través de los períodos cargados). Es la misma página, publicada automáticamente en GitHub Pages en el link de arriba.
 
 ## Cómo actualizar un nuevo período
 
