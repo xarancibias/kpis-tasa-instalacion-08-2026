@@ -1,0 +1,530 @@
+<title>Tasa de Instalación BAF</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg:            #eef1f4;
+    --surface:       #ffffff;
+    --surface-2:     #e7ebef;
+    --ink:           #0f2233;
+    --ink-secondary: #4c5a68;
+    --ink-muted:     #8592a0;
+    --border:        rgba(15,34,51,0.11);
+    --border-strong: rgba(15,34,51,0.20);
+    --navy:          #123a5c;
+    --navy-ink:      #eaf1f8;
+    --accent:        #d9660d;
+    --gridline:      #dde2e7;
+
+    --status-good:     #0ca30c;
+    --status-warning:  #c98500;
+    --status-critical: #d03b3b;
+    --status-anomaly:  #4a3aa7;
+    --status-good-bg:     rgba(12,163,12,0.11);
+    --status-warning-bg:  rgba(201,133,0,0.13);
+    --status-critical-bg: rgba(208,59,59,0.11);
+    --status-anomaly-bg:  rgba(74,58,167,0.11);
+
+    --shadow: 0 1px 2px rgba(15,34,51,0.06), 0 8px 24px -12px rgba(15,34,51,0.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg:            #0b1620;
+      --surface:       #101c27;
+      --surface-2:     #16232f;
+      --ink:           #eef3f7;
+      --ink-secondary: #b7c3ce;
+      --ink-muted:     #7c8a97;
+      --border:        rgba(255,255,255,0.10);
+      --border-strong: rgba(255,255,255,0.18);
+      --navy:          #1c496f;
+      --navy-ink:      #eaf1f8;
+      --accent:        #ef8a3c;
+      --gridline:      #22303c;
+
+      --status-good:     #1fbf3d;
+      --status-warning:  #fab219;
+      --status-critical: #ef6a6a;
+      --status-anomaly:  #9085e9;
+      --status-good-bg:     rgba(31,191,61,0.14);
+      --status-warning-bg:  rgba(250,178,25,0.14);
+      --status-critical-bg: rgba(239,106,106,0.14);
+      --status-anomaly-bg:  rgba(144,133,233,0.16);
+
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:            #0b1620;
+    --surface:       #101c27;
+    --surface-2:     #16232f;
+    --ink:           #eef3f7;
+    --ink-secondary: #b7c3ce;
+    --ink-muted:     #7c8a97;
+    --border:        rgba(255,255,255,0.10);
+    --border-strong: rgba(255,255,255,0.18);
+    --navy:          #1c496f;
+    --navy-ink:      #eaf1f8;
+    --accent:        #ef8a3c;
+    --gridline:      #22303c;
+
+    --status-good:     #1fbf3d;
+    --status-warning:  #fab219;
+    --status-critical: #ef6a6a;
+    --status-anomaly:  #9085e9;
+    --status-good-bg:     rgba(31,191,61,0.14);
+    --status-warning-bg:  rgba(250,178,25,0.14);
+    --status-critical-bg: rgba(239,106,106,0.14);
+    --status-anomaly-bg:  rgba(144,133,233,0.16);
+
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.45;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  .page { max-width: 1120px; margin: 0 auto; padding: 0 0 64px; }
+
+  /* ---------- Header ---------- */
+  .masthead {
+    background: linear-gradient(180deg, var(--navy) 0%, color-mix(in srgb, var(--navy) 88%, black) 100%);
+    color: var(--navy-ink);
+    padding: 30px 32px 26px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .masthead-row {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: color-mix(in srgb, var(--navy-ink) 72%, transparent);
+    margin: 0 0 8px;
+  }
+  .eyebrow .dot { color: var(--accent); }
+  .masthead h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .masthead p.sub {
+    margin: 6px 0 0;
+    font-size: 14.5px;
+    color: color-mix(in srgb, var(--navy-ink) 80%, transparent);
+  }
+  .period-badge {
+    border: 1px solid color-mix(in srgb, var(--navy-ink) 30%, transparent);
+    border-radius: 6px;
+    padding: 9px 14px;
+    font-size: 12.5px;
+    color: color-mix(in srgb, var(--navy-ink) 92%, transparent);
+    white-space: nowrap;
+  }
+  .period-badge b { display: block; font-size: 14px; color: var(--navy-ink); margin-bottom: 2px; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 36px 32px 0; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+  .section-head h2 { font-size: 15px; margin: 0; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-secondary); font-weight: 700; }
+  .section-head .hint { font-size: 12.5px; color: var(--ink-muted); }
+
+  /* ---------- Hero KPI ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.1fr) 2fr;
+    gap: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .hero-figure {
+    padding: 28px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    border-right: 1px solid var(--border);
+  }
+  .hero-figure .label { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); font-weight: 600; }
+  .hero-number { display: flex; align-items: baseline; gap: 10px; }
+  .hero-number .value { font-size: 56px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1; }
+  .hero-number .vs { font-size: 14px; color: var(--ink-muted); }
+  .status-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 10px 5px 8px; border-radius: 100px;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.01em;
+    width: fit-content;
+  }
+  .status-chip .swatch { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .status-chip.critical { background: var(--status-critical-bg); color: var(--status-critical); }
+  .status-chip.critical .swatch { background: var(--status-critical); }
+  .status-chip.warning { background: var(--status-warning-bg); color: var(--status-warning); }
+  .status-chip.warning .swatch { background: var(--status-warning); }
+  .status-chip.good { background: var(--status-good-bg); color: var(--status-good); }
+  .status-chip.good .swatch { background: var(--status-good); }
+  .status-chip.anomaly { background: var(--status-anomaly-bg); color: var(--status-anomaly); }
+  .status-chip.anomaly .swatch { background: var(--status-anomaly); }
+
+  .hero-meta { padding: 24px 28px; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+  .hero-meta-row { display: flex; align-items: center; gap: 14px; }
+  .hero-meta-row .k { font-size: 12.5px; color: var(--ink-muted); width: 110px; flex: none; }
+  .hero-meta-bar { flex: 1; height: 10px; background: var(--surface-2); border-radius: 100px; position: relative; overflow: visible; }
+  .hero-meta-bar .fill { height: 100%; border-radius: 100px; background: var(--status-critical); }
+  .hero-meta-bar .tick { position: absolute; top: -3px; width: 2px; height: 16px; background: var(--ink); opacity: 0.55; }
+  .hero-meta-row .v { font-size: 13.5px; font-weight: 700; font-variant-numeric: tabular-nums; width: 56px; text-align: right; flex: none; }
+  .hero-note { font-size: 12.5px; color: var(--ink-muted); border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 2px; }
+
+  /* ---------- Zone cards ---------- */
+  .zone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  .zone-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 20px 20px 18px;
+    position: relative;
+  }
+  .zone-card .stripe { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 10px 0 0 10px; }
+  .zone-card.critical .stripe { background: var(--status-critical); }
+  .zone-card.warning .stripe { background: var(--status-warning); }
+  .zone-card.anomaly .stripe { background: var(--status-anomaly); }
+  .zone-name { font-size: 15px; font-weight: 700; margin: 0 0 2px; padding-left: 10px; }
+  .zone-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .zone-number { font-size: 34px; font-weight: 700; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; padding-left: 10px; margin: 4px 0 12px; }
+  .zone-mini-bar { height: 8px; background: var(--surface-2); border-radius: 100px; margin: 0 0 14px 10px; position: relative; }
+  .zone-mini-bar .fill { height: 100%; border-radius: 100px; }
+  .zone-mini-bar .tick { position: absolute; top: -2.5px; width: 2px; height: 13px; background: var(--ink); opacity: 0.5; }
+  .zone-stats { padding-left: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; font-size: 12.5px; }
+  .zone-stats div b { display: block; font-variant-numeric: tabular-nums; font-size: 14px; color: var(--ink); font-weight: 700; }
+  .zone-stats div span { color: var(--ink-muted); }
+
+  /* ---------- Chart ---------- */
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 20px 24px 8px;
+  }
+  .chart-card svg { width: 100%; height: auto; display: block; }
+  .chart-legend { display: flex; gap: 18px; flex-wrap: wrap; padding: 4px 4px 18px; font-size: 12.5px; color: var(--ink-secondary); }
+  .chart-legend .item { display: flex; align-items: center; gap: 6px; }
+  .chart-legend .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .bar-mark { transition: opacity 0.15s ease; }
+  .bar-mark:hover { opacity: 0.82; }
+
+  /* ---------- Table ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); background: var(--surface); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 760px; }
+  thead th {
+    text-align: right; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--ink-muted); font-weight: 700; padding: 12px 16px; border-bottom: 1px solid var(--border-strong);
+    background: var(--surface-2);
+  }
+  thead th:first-child, tbody td:first-child { text-align: left; }
+  tbody td { padding: 12px 16px; text-align: right; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: none; font-weight: 700; background: var(--surface-2); }
+  tbody td.name { font-weight: 600; font-variant-numeric: normal; }
+  td.estado { text-align: left; }
+
+  /* ---------- Anomaly callout ---------- */
+  .callout {
+    background: var(--status-anomaly-bg);
+    border: 1px solid color-mix(in srgb, var(--status-anomaly) 35%, transparent);
+    border-left: 4px solid var(--status-anomaly);
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .callout .icon { font-size: 18px; line-height: 1.3; flex: none; }
+  .callout h3 { margin: 0 0 4px; font-size: 14px; color: var(--ink); }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink-secondary); max-width: 74ch; }
+
+  /* ---------- Methodology ---------- */
+  .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .method-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .method-card h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); }
+  .method-card p { margin: 0; font-size: 13.5px; color: var(--ink-secondary); }
+  .method-card code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+
+  footer { padding: 30px 32px 0; font-size: 12px; color: var(--ink-muted); border-top: 1px solid var(--border); margin: 40px 32px 0; padding-top: 18px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+</style>
+
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-row">
+      <div>
+        <p class="eyebrow">ELECNOR <span class="dot">·</span> OPERACIONES BAF <span class="dot">·</span> REGIÓN VALPARAÍSO</p>
+        <h1>Tasa de Instalación BAF</h1>
+        <p class="sub">Cruce TOA (P12) × Maestro de Ventas — desempeño frente a meta por agencia zonal</p>
+      </div>
+      <div class="period-badge">Agosto 2026 · días 01–15</div>
+    </div>
+  </div>
+
+  <section aria-label="Resumen ejecutivo">
+    <div class="section-head"><h2>Resumen ejecutivo</h2></div>
+    <div class="hero">
+      <div class="hero-figure">
+        <p class="label">Tasa de instalación total</p>
+        <div class="hero-number">
+          <span class="value">50,3%</span>
+          <span class="vs">de 80,7% meta</span>
+        </div>
+        <span class="status-chip critical"><span class="swatch"></span>Crítico · -30,4 pts vs. meta</span>
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-row">
+          <span class="k">Valparaíso</span>
+          <div class="hero-meta-bar"><div class="fill" style="width:17.8%; background:var(--status-critical);"></div><div class="tick" style="left:57.6%;"></div></div>
+          <span class="v">24,9%</span>
+        </div>
+        <div class="hero-meta-row">
+          <span class="k">Viña del Mar</span>
+          <div class="hero-meta-bar"><div class="fill" style="width:56.1%; background:var(--status-warning);"></div><div class="tick" style="left:57.6%;"></div></div>
+          <span class="v">78,6%</span>
+        </div>
+        <div class="hero-meta-row">
+          <span class="k">San Antonio</span>
+          <div class="hero-meta-bar"><div class="fill" style="width:95.8%; background:var(--status-anomaly);"></div><div class="tick" style="left:57.6%;"></div></div>
+          <span class="v">134,1%</span>
+        </div>
+        <p class="hero-note">La marca vertical indica la meta (80,7%). Escala 0–140% para que las tres barras sean comparables en el mismo eje.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Detalle por agencia">
+    <div class="section-head"><h2>Por agencia zonal</h2><span class="hint">Numerador: TOA, complete + XA_WORK_TYPE_ID “AT” · Denominador: Emisión − Cancelada</span></div>
+    <div class="zone-grid">
+
+      <div class="zone-card critical">
+        <div class="stripe"></div>
+        <div class="zone-card-top">
+          <h3 class="zone-name">Valparaíso</h3>
+          <span class="status-chip critical"><span class="swatch"></span>Crítico</span>
+        </div>
+        <div class="zone-number">24,9%</div>
+        <div class="zone-mini-bar"><div class="fill" style="width:17.8%; background:var(--status-critical);"></div><div class="tick" style="left:57.6%;"></div></div>
+        <div class="zone-stats">
+          <div><span>Numerador</span><b>341</b></div>
+          <div><span>Denominador</span><b>1.369</b></div>
+          <div><span>Emisión</span><b>1.541</b></div>
+          <div><span>Cancelada</span><b>172</b></div>
+        </div>
+      </div>
+
+      <div class="zone-card warning">
+        <div class="stripe"></div>
+        <div class="zone-card-top">
+          <h3 class="zone-name">Viña del Mar</h3>
+          <span class="status-chip warning"><span class="swatch"></span>Cerca de meta</span>
+        </div>
+        <div class="zone-number">78,6%</div>
+        <div class="zone-mini-bar"><div class="fill" style="width:56.1%; background:var(--status-warning);"></div><div class="tick" style="left:57.6%;"></div></div>
+        <div class="zone-stats">
+          <div><span>Numerador</span><b>659</b></div>
+          <div><span>Denominador</span><b>838</b></div>
+          <div><span>Emisión</span><b>927</b></div>
+          <div><span>Cancelada</span><b>89</b></div>
+        </div>
+      </div>
+
+      <div class="zone-card anomaly">
+        <div class="stripe"></div>
+        <div class="zone-card-top">
+          <h3 class="zone-name">San Antonio</h3>
+          <span class="status-chip anomaly"><span class="swatch"></span>Verificar dato</span>
+        </div>
+        <div class="zone-number">134,1%</div>
+        <div class="zone-mini-bar"><div class="fill" style="width:95.8%; background:var(--status-anomaly);"></div><div class="tick" style="left:57.6%;"></div></div>
+        <div class="zone-stats">
+          <div><span>Numerador</span><b>177</b></div>
+          <div><span>Denominador</span><b>132</b></div>
+          <div><span>Emisión</span><b>145</b></div>
+          <div><span>Cancelada</span><b>13</b></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section aria-label="Gráfico comparativo">
+    <div class="section-head"><h2>Tasa vs. meta por agencia</h2><span class="hint">Meta: 80,7%</span></div>
+    <div class="chart-card">
+      <svg viewBox="0 0 600 320" role="img" aria-label="Gráfico de barras: tasa de instalación por agencia comparada con la meta de 80,7 por ciento">
+        <!-- gridlines -->
+        <g font-size="11" fill="var(--ink-muted)" font-family="inherit">
+          <line x1="50" y1="280" x2="565" y2="280" stroke="var(--ink-muted)" stroke-opacity="0.55" stroke-width="1"/>
+          <line x1="50" y1="236.67" x2="565" y2="236.67" stroke="var(--gridline)" stroke-width="1"/>
+          <line x1="50" y1="193.33" x2="565" y2="193.33" stroke="var(--gridline)" stroke-width="1"/>
+          <line x1="50" y1="150" x2="565" y2="150" stroke="var(--gridline)" stroke-width="1"/>
+          <line x1="50" y1="106.67" x2="565" y2="106.67" stroke="var(--gridline)" stroke-width="1"/>
+          <line x1="50" y1="63.33" x2="565" y2="63.33" stroke="var(--gridline)" stroke-width="1"/>
+          <line x1="50" y1="20" x2="565" y2="20" stroke="var(--gridline)" stroke-width="1"/>
+          <text x="42" y="284" text-anchor="end">0%</text>
+          <text x="42" y="240.67" text-anchor="end">25%</text>
+          <text x="42" y="197.33" text-anchor="end">50%</text>
+          <text x="42" y="154" text-anchor="end">75%</text>
+          <text x="42" y="110.67" text-anchor="end">100%</text>
+          <text x="42" y="67.33" text-anchor="end">125%</text>
+          <text x="42" y="24" text-anchor="end">150%</text>
+        </g>
+
+        <!-- divider before Total -->
+        <line x1="385" y1="20" x2="385" y2="280" stroke="var(--border-strong)" stroke-width="1" stroke-dasharray="2 4"/>
+
+        <!-- meta reference line -->
+        <line x1="50" y1="140.13" x2="565" y2="140.13" stroke="var(--accent)" stroke-width="1.75" stroke-dasharray="5 4"/>
+        <text x="568" y="144" font-size="11.5" font-weight="700" fill="var(--accent)">Meta 80,7%</text>
+
+        <!-- bars -->
+        <path class="bar-mark" d="M60,280 L60,240.84 Q60,236.84 64,236.84 L126,236.84 Q130,236.84 130,240.84 L130,280 Z" fill="var(--status-critical)">
+          <title>Valparaíso — Tasa 24,9% (341/1.369) — Meta 80,7% — Brecha -55,8 pts</title>
+        </path>
+        <path class="bar-mark" d="M170,280 L170,147.76 Q170,143.76 174,143.76 L236,143.76 Q240,143.76 240,147.76 L240,280 Z" fill="var(--status-warning)">
+          <title>Viña del Mar — Tasa 78,6% (659/838) — Meta 80,7% — Brecha -2,1 pts</title>
+        </path>
+        <path class="bar-mark" d="M280,280 L280,51.5 Q280,47.5 284,47.5 L346,47.5 Q350,47.5 350,51.5 L350,280 Z" fill="var(--status-anomaly)">
+          <title>San Antonio — Tasa 134,1% (177/132) — Meta 80,7% — dato a validar</title>
+        </path>
+        <path class="bar-mark" d="M420,280 L420,196.81 Q420,192.81 424,192.81 L486,192.81 Q490,192.81 490,196.81 L490,280 Z" fill="var(--status-critical)" fill-opacity="0.82">
+          <title>Total — Tasa 50,3% (1.177/2.339) — Meta 80,7% — Brecha -30,4 pts</title>
+        </path>
+
+        <!-- value labels -->
+        <g font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle" font-family="inherit">
+          <text x="95" y="230.84">24,9%</text>
+          <text x="205" y="137.76">78,6%</text>
+          <text x="315" y="41.5">134,1%</text>
+          <text x="455" y="186.81">50,3%</text>
+        </g>
+
+        <!-- category labels -->
+        <g font-size="12.5" fill="var(--ink-secondary)" text-anchor="middle" font-family="inherit">
+          <text x="95" y="299">Valparaíso</text>
+          <text x="205" y="299">Viña del Mar</text>
+          <text x="315" y="299">San Antonio</text>
+          <text x="455" y="299" font-weight="700" letter-spacing="0.03em">TOTAL</text>
+        </g>
+      </svg>
+      <div class="chart-legend">
+        <span class="item"><span class="sw" style="background:var(--status-critical);"></span>Crítico (brecha &gt; 5 pts)</span>
+        <span class="item"><span class="sw" style="background:var(--status-warning);"></span>Cerca de meta (± 5 pts)</span>
+        <span class="item"><span class="sw" style="background:var(--status-good);"></span>Cumple meta</span>
+        <span class="item"><span class="sw" style="background:var(--status-anomaly);"></span>Verificar dato</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Anomalía de datos">
+    <div class="callout">
+      <span class="icon">⚠️</span>
+      <div>
+        <h3>San Antonio: 134,1% requiere validación antes de reportar</h3>
+        <p>El numerador (TOA-P12) solo cubre el 1–15 de agosto, mientras el denominador (Maestro_Ventas) incluye órdenes emitidas en julio y completadas en agosto — el desfase temporal entre ambas fuentes puede inflar la tasa. Se recomienda conciliar por número de orden individual antes de usar esta cifra en decisiones de gestión.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Tabla de detalle">
+    <div class="section-head"><h2>Detalle completo</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Agencia</th>
+            <th>Numerador</th>
+            <th>Emisión</th>
+            <th>Cancelada</th>
+            <th>Denominador</th>
+            <th>Tasa</th>
+            <th>Meta</th>
+            <th>Brecha</th>
+            <th class="estado">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Valparaíso</td>
+            <td>341</td><td>1.541</td><td>172</td><td>1.369</td>
+            <td>24,9%</td><td>80,7%</td><td>-55,8 pts</td>
+            <td class="estado"><span class="status-chip critical"><span class="swatch"></span>Crítico</span></td>
+          </tr>
+          <tr>
+            <td class="name">Viña del Mar</td>
+            <td>659</td><td>927</td><td>89</td><td>838</td>
+            <td>78,6%</td><td>80,7%</td><td>-2,1 pts</td>
+            <td class="estado"><span class="status-chip warning"><span class="swatch"></span>Cerca de meta</span></td>
+          </tr>
+          <tr>
+            <td class="name">San Antonio</td>
+            <td>177</td><td>145</td><td>13</td><td>132</td>
+            <td>134,1%</td><td>80,7%</td><td>+53,4 pts</td>
+            <td class="estado"><span class="status-chip anomaly"><span class="swatch"></span>Verificar dato</span></td>
+          </tr>
+          <tr>
+            <td class="name">Total</td>
+            <td>1.177</td><td>2.613</td><td>274</td><td>2.339</td>
+            <td>50,3%</td><td>80,7%</td><td>-30,4 pts</td>
+            <td class="estado"><span class="status-chip critical"><span class="swatch"></span>Crítico</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-label="Metodología">
+    <div class="section-head"><h2>Metodología</h2></div>
+    <div class="method-grid">
+      <div class="method-card">
+        <h3>Numerador</h3>
+        <p>Fuente <code>p12_TOA_ELECNOR_2026-08</code>, agrupado por <code>XA_ORIGINAL_AGENCY_NAME</code>, contando <code>APPT_NUMBER_CD</code> donde <code>STATUS_CD = complete</code> y <code>XA_WORK_TYPE_ID</code> inicia con “AT” (productos BAF).</p>
+      </div>
+      <div class="method-card">
+        <h3>Denominador</h3>
+        <p>Fuente <code>Maestro_Ventas_Elecnor_2026-08</code>, agrupado por <code>AGENCIA_ZONAL_INSTALACION</code>, contando <code>ORDEN</code>: Q(Emisión) − Q(Cancelada).</p>
+      </div>
+      <div class="method-card">
+        <h3>Meta</h3>
+        <p>80,7% — umbral fijado por gerencia para el período P12 (agosto 2026). El estado “cerca de meta” aplica dentro de ± 5 puntos porcentuales.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>ELECNOR · Operaciones BAF Región Valparaíso — uso interno</span>
+    <span>Generado 16 ago 2026 · fuentes: TOA P12, Maestro de Ventas</span>
+  </footer>
+
+</div>
