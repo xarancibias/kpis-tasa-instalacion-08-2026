@@ -145,7 +145,7 @@ $jsonRows = $historicoAll | ForEach-Object {
     ',"tasa":' + $_.tasa + ',"meta":' + $_.meta + ',"brecha":' + $_.brecha + ',"estado":"' + $_.estado + '"}'
 }
 $json = "[`n" + ($jsonRows -join ",`n") + "`n]"
-$template = Get-Content -Path $templatePath -Raw
+$template = Get-Content -Path $templatePath -Raw -Encoding UTF8
 $dashboardHtml = $template.Replace('__KPI_DATA_JSON__', $json)
 Set-Content -Path (Join-Path $repoRoot "dashboard.html") -Value $dashboardHtml -Encoding UTF8 -NoNewline
 Copy-Item (Join-Path $repoRoot "dashboard.html") (Join-Path $repoRoot "index.html") -Force

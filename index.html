@@ -1,4 +1,4 @@
-﻿<title>Tasa de InstalaciÃ³n BAF</title>
+﻿<title>Tasa de Instalación BAF</title>
 <style>
   :root {
     color-scheme: light;
@@ -314,13 +314,13 @@
   <div class="masthead">
     <div class="masthead-row">
       <div>
-        <p class="eyebrow">ELECNOR <span class="dot">Â·</span> OPERACIONES BAF <span class="dot">Â·</span> REGIÃ“N VALPARAÃSO</p>
-        <h1>Tasa de InstalaciÃ³n BAF</h1>
-        <p class="sub">Cruce TOA Ã— Maestro de Ventas â€” desempeÃ±o frente a meta por agencia zonal</p>
+        <p class="eyebrow">ELECNOR <span class="dot">·</span> OPERACIONES BAF <span class="dot">·</span> REGIÓN VALPARAÍSO</p>
+        <h1>Tasa de Instalación BAF</h1>
+        <p class="sub">Cruce TOA × Maestro de Ventas — desempeño frente a meta por agencia zonal</p>
       </div>
       <div class="period-picker">
-        <label for="period-select">PerÃ­odo</label>
-        <select id="period-select" aria-label="Seleccionar perÃ­odo"></select>
+        <label for="period-select">Período</label>
+        <select id="period-select" aria-label="Seleccionar período"></select>
       </div>
     </div>
   </div>
@@ -329,41 +329,41 @@
     <div class="section-head"><h2>Resumen ejecutivo</h2></div>
     <div class="hero">
       <div class="hero-figure">
-        <p class="label">Tasa de instalaciÃ³n total</p>
+        <p class="label">Tasa de instalación total</p>
         <div class="hero-number">
-          <span class="value" id="hero-total-value">â€”</span>
-          <span class="vs" id="hero-total-vs">â€”</span>
+          <span class="value" id="hero-total-value">—</span>
+          <span class="vs" id="hero-total-vs">—</span>
         </div>
-        <span class="status-chip" id="hero-total-chip"><span class="swatch"></span><span id="hero-total-chip-text">â€”</span></span>
+        <span class="status-chip" id="hero-total-chip"><span class="swatch"></span><span id="hero-total-chip-text">—</span></span>
       </div>
       <div class="hero-meta" id="hero-meta-rows"></div>
     </div>
   </section>
 
   <section aria-label="Detalle por agencia">
-    <div class="section-head"><h2>Por agencia zonal</h2><span class="hint">Numerador: TOA, complete + XA_WORK_TYPE_ID â€œATâ€ Â· Denominador: EmisiÃ³n âˆ’ Cancelada</span></div>
+    <div class="section-head"><h2>Por agencia zonal</h2><span class="hint">Numerador: TOA, complete + XA_WORK_TYPE_ID “AT” · Denominador: Emisión − Cancelada</span></div>
     <div class="zone-grid" id="zone-grid"></div>
   </section>
 
-  <section aria-label="GrÃ¡fico comparativo">
-    <div class="section-head"><h2 id="bar-chart-title">Tasa vs. meta por agencia</h2><span class="hint" id="bar-chart-hint">â€”</span></div>
+  <section aria-label="Gráfico comparativo">
+    <div class="section-head"><h2 id="bar-chart-title">Tasa vs. meta por agencia</h2><span class="hint" id="bar-chart-hint">—</span></div>
     <div class="chart-card">
-      <svg id="bar-chart" viewBox="0 0 600 320" role="img" aria-label="GrÃ¡fico de barras: tasa de instalaciÃ³n por agencia comparada con la meta"></svg>
+      <svg id="bar-chart" viewBox="0 0 600 320" role="img" aria-label="Gráfico de barras: tasa de instalación por agencia comparada con la meta"></svg>
       <div class="chart-legend">
-        <span class="item"><span class="sw" style="background:var(--status-critical);"></span>CrÃ­tico (brecha &gt; 5 pts)</span>
-        <span class="item"><span class="sw" style="background:var(--status-warning);"></span>Cerca de meta (Â± 5 pts)</span>
+        <span class="item"><span class="sw" style="background:var(--status-critical);"></span>Crítico (brecha &gt; 5 pts)</span>
+        <span class="item"><span class="sw" style="background:var(--status-warning);"></span>Cerca de meta (± 5 pts)</span>
         <span class="item"><span class="sw" style="background:var(--status-good);"></span>Cumple meta</span>
         <span class="item"><span class="sw" style="background:var(--status-anomaly);"></span>Verificar dato</span>
       </div>
     </div>
   </section>
 
-  <section aria-label="AnomalÃ­a de datos" id="callout-section" style="display:none;">
+  <section aria-label="Anomalía de datos" id="callout-section" style="display:none;">
     <div class="callout">
-      <span class="icon">âš ï¸</span>
+      <span class="icon">⚠️</span>
       <div>
-        <h3 id="callout-title">â€”</h3>
-        <p id="callout-body">â€”</p>
+        <h3 id="callout-title">—</h3>
+        <p id="callout-body">—</p>
       </div>
     </div>
   </section>
@@ -376,7 +376,7 @@
           <tr>
             <th>Agencia</th>
             <th>Numerador</th>
-            <th>EmisiÃ³n</th>
+            <th>Emisión</th>
             <th>Cancelada</th>
             <th>Denominador</th>
             <th>Tasa</th>
@@ -390,36 +390,36 @@
     </div>
   </section>
 
-  <section aria-label="HistÃ³rico mensual">
-    <div class="section-head"><h2>HistÃ³rico mensual</h2><span class="hint">EvoluciÃ³n de la tasa por agencia, perÃ­odo contra perÃ­odo</span></div>
+  <section aria-label="Histórico mensual">
+    <div class="section-head"><h2>Histórico mensual</h2><span class="hint">Evolución de la tasa por agencia, período contra período</span></div>
     <div class="chart-card" id="historico-card">
-      <svg id="historico-chart" viewBox="0 0 600 300" role="img" aria-label="GrÃ¡fico de lÃ­neas: evoluciÃ³n mensual de la tasa de instalaciÃ³n por agencia"></svg>
+      <svg id="historico-chart" viewBox="0 0 600 300" role="img" aria-label="Gráfico de líneas: evolución mensual de la tasa de instalación por agencia"></svg>
       <div class="chart-legend" id="historico-legend"></div>
-      <div class="empty-state" id="historico-empty" style="display:none;">AÃºn hay un solo perÃ­odo cargado â€” el histÃ³rico se irÃ¡ construyendo a medida que se acumulen mÃ¡s meses.</div>
+      <div class="empty-state" id="historico-empty" style="display:none;">Aún hay un solo período cargado — el histórico se irá construyendo a medida que se acumulen más meses.</div>
     </div>
   </section>
 
-  <section aria-label="MetodologÃ­a">
-    <div class="section-head"><h2>MetodologÃ­a</h2></div>
+  <section aria-label="Metodología">
+    <div class="section-head"><h2>Metodología</h2></div>
     <div class="method-grid">
       <div class="method-card">
         <h3>Numerador</h3>
-        <p>Fuente <code>pXX_TOA_ELECNOR_AAAA-MM</code>, agrupado por <code>XA_ORIGINAL_AGENCY_NAME</code>, contando <code>APPT_NUMBER_CD</code> donde <code>STATUS_CD = complete</code> y <code>XA_WORK_TYPE_ID</code> inicia con â€œATâ€ (productos BAF).</p>
+        <p>Fuente <code>pXX_TOA_ELECNOR_AAAA-MM</code>, agrupado por <code>XA_ORIGINAL_AGENCY_NAME</code>, contando <code>APPT_NUMBER_CD</code> donde <code>STATUS_CD = complete</code> y <code>XA_WORK_TYPE_ID</code> inicia con “AT” (productos BAF).</p>
       </div>
       <div class="method-card">
         <h3>Denominador</h3>
-        <p>Fuente <code>Maestro_Ventas_Elecnor_AAAA-MM</code>, agrupado por <code>AGENCIA_ZONAL_INSTALACION</code>, contando <code>ORDEN</code>: Q(EmisiÃ³n) âˆ’ Q(Cancelada).</p>
+        <p>Fuente <code>Maestro_Ventas_Elecnor_AAAA-MM</code>, agrupado por <code>AGENCIA_ZONAL_INSTALACION</code>, contando <code>ORDEN</code>: Q(Emisión) − Q(Cancelada).</p>
       </div>
       <div class="method-card">
         <h3>Estados</h3>
-        <p>Cumple meta â‰¥ meta Â· Cerca de meta dentro de âˆ’5 pts Â· CrÃ­tico bajo âˆ’5 pts Â· Verificar dato si la tasa supera 100% (posible desfase entre fuentes).</p>
+        <p>Cumple meta ≥ meta · Cerca de meta dentro de −5 pts · Crítico bajo −5 pts · Verificar dato si la tasa supera 100% (posible desfase entre fuentes).</p>
       </div>
     </div>
   </section>
 
   <footer>
-    <span>ELECNOR Â· Operaciones BAF RegiÃ³n ValparaÃ­so â€” uso interno</span>
-    <span id="footer-generated">â€”</span>
+    <span>ELECNOR · Operaciones BAF Región Valparaíso — uso interno</span>
+    <span id="footer-generated">—</span>
   </footer>
 
 </div>
@@ -432,7 +432,7 @@
 <script>
 (function () {
   var raw = JSON.parse(document.getElementById('kpi-data').textContent);
-  var AGENCY_LABELS = { 'VALPARAISO': 'ValparaÃ­so', 'VINA DEL MAR': 'ViÃ±a del Mar', 'SAN ANTONIO': 'San Antonio' };
+  var AGENCY_LABELS = { 'VALPARAISO': 'Valparaíso', 'VINA DEL MAR': 'Viña del Mar', 'SAN ANTONIO': 'San Antonio' };
   var SERIES_COLORS = ['var(--series-1)', 'var(--series-2)', 'var(--series-3)'];
 
   function agencyLabel(a) { return AGENCY_LABELS[a] || a; }
@@ -444,7 +444,7 @@
     if (tasa >= 100) return { cls: 'anomaly', label: 'Verificar dato' };
     if (tasa >= meta) return { cls: 'good', label: 'Cumple meta' };
     if (tasa >= meta - 5) return { cls: 'warning', label: 'Cerca de meta' };
-    return { cls: 'critical', label: 'CrÃ­tico' };
+    return { cls: 'critical', label: 'Crítico' };
   }
 
   var periods = Array.from(new Set(raw.map(function (r) { return r.periodo; }))).sort();
@@ -479,7 +479,7 @@
     document.getElementById('hero-total-vs').textContent = 'de ' + fmtPct(total.meta) + ' meta';
     var chip = document.getElementById('hero-total-chip');
     chip.className = 'status-chip ' + totalStatus.cls;
-    document.getElementById('hero-total-chip-text').textContent = totalStatus.label + ' Â· ' + fmtPts(total.brecha) + ' vs. meta';
+    document.getElementById('hero-total-chip-text').textContent = totalStatus.label + ' · ' + fmtPts(total.brecha) + ' vs. meta';
 
     var scaleMax = Math.max(150, Math.ceil(Math.max.apply(null, rows.map(function (r) { return r.tasa; }).concat([total.tasa, total.meta])) * 1.15 / 25) * 25);
 
@@ -497,7 +497,7 @@
     });
     var note = document.createElement('p');
     note.className = 'hero-note';
-    note.textContent = 'La marca vertical indica la meta (' + fmtPct(rows.length ? rows[0].meta : 0) + '). Escala 0â€“' + scaleMax + '% para que las barras sean comparables en el mismo eje.';
+    note.textContent = 'La marca vertical indica la meta (' + fmtPct(rows.length ? rows[0].meta : 0) + '). Escala 0–' + scaleMax + '% para que las barras sean comparables en el mismo eje.';
     heroWrap.appendChild(note);
 
     var zoneGrid = document.getElementById('zone-grid');
@@ -515,7 +515,7 @@
         '<div class="zone-stats">' +
         '<div><span>Numerador</span><b>' + fmtInt(r.numerador) + '</b></div>' +
         '<div><span>Denominador</span><b>' + fmtInt(r.denominador) + '</b></div>' +
-        '<div><span>EmisiÃ³n</span><b>' + fmtInt(r.emision) + '</b></div>' +
+        '<div><span>Emisión</span><b>' + fmtInt(r.emision) + '</b></div>' +
         '<div><span>Cancelada</span><b>' + fmtInt(r.cancelada) + '</b></div>' +
         '</div>';
       zoneGrid.appendChild(card);
@@ -529,9 +529,9 @@
     if (anomalies.length) {
       calloutSection.style.display = '';
       document.getElementById('callout-title').textContent =
-        anomalies.map(function (r) { return agencyLabel(r.agencia) + ': ' + fmtPct(r.tasa); }).join(' Â· ') + ' requiere validaciÃ³n antes de reportar';
+        anomalies.map(function (r) { return agencyLabel(r.agencia) + ': ' + fmtPct(r.tasa); }).join(' · ') + ' requiere validación antes de reportar';
       document.getElementById('callout-body').textContent =
-        'El numerador (TOA) y el denominador (Maestro_Ventas) pueden cubrir ventanas de fechas distintas dentro del mismo perÃ­odo â€” el desfase temporal entre ambas fuentes puede inflar la tasa por encima del 100%. Se recomienda conciliar por nÃºmero de orden individual antes de usar esta cifra en decisiones de gestiÃ³n.';
+        'El numerador (TOA) y el denominador (Maestro_Ventas) pueden cubrir ventanas de fechas distintas dentro del mismo período — el desfase temporal entre ambas fuentes puede inflar la tasa por encima del 100%. Se recomienda conciliar por número de orden individual antes de usar esta cifra en decisiones de gestión.';
     } else {
       calloutSection.style.display = 'none';
     }
@@ -556,7 +556,7 @@
       tbody.appendChild(tr);
     });
 
-    document.getElementById('footer-generated').textContent = 'PerÃ­odo mostrado: ' + periodo + ' Â· fuentes: TOA, Maestro de Ventas';
+    document.getElementById('footer-generated').textContent = 'Período mostrado: ' + periodo + ' · fuentes: TOA, Maestro de Ventas';
   }
 
   function renderBarChart(rows, total, scaleMax) {
@@ -607,7 +607,7 @@
       var path = el('path', { d: d, fill: 'var(--status-' + st.cls + ')', class: 'bar-mark' });
       if (isTotal) path.setAttribute('fill-opacity', '0.82');
       var title = document.createElementNS(ns, 'title');
-      title.textContent = (isTotal ? 'Total' : agencyLabel(r.agencia)) + ' â€” Tasa ' + fmtPct(r.tasa) + ' (' + fmtInt(r.numerador) + '/' + fmtInt(r.denominador) + ') â€” Meta ' + fmtPct(r.meta) + ' â€” ' + st.label;
+      title.textContent = (isTotal ? 'Total' : agencyLabel(r.agencia)) + ' — Tasa ' + fmtPct(r.tasa) + ' (' + fmtInt(r.numerador) + '/' + fmtInt(r.denominador) + ') — Meta ' + fmtPct(r.meta) + ' — ' + st.label;
       path.appendChild(title);
       svg.appendChild(path);
 
@@ -690,7 +690,7 @@
         if (!pt) return;
         var dot = el('circle', { cx: pt.x, cy: pt.y, r: 4, fill: color, stroke: 'var(--surface)', 'stroke-width': 2, class: 'line-dot' });
         var title = document.createElementNS(ns, 'title');
-        title.textContent = agencyLabel(agencia) + ' â€” ' + pt.r.periodo + ' â€” ' + fmtPct(pt.r.tasa);
+        title.textContent = agencyLabel(agencia) + ' — ' + pt.r.periodo + ' — ' + fmtPct(pt.r.tasa);
         dot.appendChild(title);
         svg.appendChild(dot);
       });
