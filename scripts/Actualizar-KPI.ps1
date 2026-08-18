@@ -48,6 +48,17 @@ function Stop-StrayExcel {
     Get-Process -Name EXCEL -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 }
 
+function Get-CsvDelimiter {
+    # Excel's "CSV" SaveAs uses the Windows regional list separator, which varies
+    # by locale (comma in en-US, semicolon in most es-* locales). Detect instead
+    # of assuming, so the script keeps working if regional settings differ.
+    param([string]$Path)
+    $firstLine = Get-Content -Path $Path -TotalCount 1 -Encoding UTF8
+    $semicolons = ($firstLine.ToCharArray() | Where-Object { $_ -eq ';' }).Count
+    $commas     = ($firstLine.ToCharArray() | Where-Object { $_ -eq ',' }).Count
+    if ($semicolons -gt $commas) { ';' } else { ',' }
+}
+
 Write-Output "== 1/6 Exportando archivos fuente a CSV =="
 Stop-StrayExcel
 $excel = New-Object -ComObject Excel.Application
@@ -68,7 +79,8 @@ $excel.Quit()
 [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
 
 Write-Output "== 2/6 Calculando numerador (TOA: complete + XA_WORK_TYPE_ID que inicia con AT) =="
-$toaRows = Import-Csv -Path $tmpToa -Delimiter ';'
+$delimToa = Get-CsvDelimiter -Path $tmpToa
+$toaRows = Import-Csv -Path $tmpToa -Delimiter $delimToa
 $numerador = @{}
 $numeradorDetalle = New-Object System.Collections.Generic.List[object]
 foreach ($row in $toaRows) {
@@ -87,7 +99,8 @@ foreach ($row in $toaRows) {
 }
 
 Write-Output "== 3/6 Calculando denominador (Maestro_Ventas: Emision - Cancelada) =="
-$mvRows = Import-Csv -Path $tmpMv -Delimiter ';'
+$delimMv = Get-CsvDelimiter -Path $tmpMv
+$mvRows = Import-Csv -Path $tmpMv -Delimiter $delimMv
 $emision = @{}
 $cancelada = @{}
 foreach ($row in $mvRows) {
@@ -123,6 +136,10 @@ $resultados = foreach ($ag in $agencias) {
     }
 }
 
+$resultados = @($resultados)
+if ($resultados.Count -eq 0) {
+    throw "No se detecto ninguna agencia con datos. Revisa que los archivos fuente tengan las columnas esperadas (status/xa_work_type/xa_original_agency en TOA; TIPO/AGENCIA_ZONAL_INSTALACION en Maestro_Ventas)."
+}
 Write-Output ($resultados | Format-Table -AutoSize | Out-String)
 
 Write-Output "== 4/6 Guardando detalle del periodo y actualizando historico =="

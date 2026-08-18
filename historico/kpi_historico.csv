@@ -1,1 +1,4 @@
-﻿
+﻿"periodo","agencia","numerador","emision","cancelada","denominador","tasa","meta","brecha","estado"
+"2026-08","SAN ANTONIO","177","145","13","132","134,1","80,7","53,4","verificar_dato"
+"2026-08","VALPARAISO","341","1541","172","1369","24,9","80,7","-55,8","critico"
+"2026-08","VINA DEL MAR","659","927","89","838","78,6","80,7","-2,1","cerca_meta"
