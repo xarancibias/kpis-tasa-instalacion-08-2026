@@ -116,23 +116,31 @@ foreach ($row in $mvRows) {
     }
 }
 
+$ic = [System.Globalization.CultureInfo]::InvariantCulture
 $agencias = @($numerador.Keys) + @($emision.Keys) + @($cancelada.Keys) | Select-Object -Unique | Sort-Object
 $resultados = foreach ($ag in $agencias) {
     $num = if ($numerador.ContainsKey($ag)) { $numerador[$ag] } else { 0 }
     $em  = if ($emision.ContainsKey($ag))   { $emision[$ag] }   else { 0 }
     $can = if ($cancelada.ContainsKey($ag)) { $cancelada[$ag] } else { 0 }
     $den = $em - $can
-    $tasa = if ($den -ne 0) { [math]::Round(($num / $den) * 100, 1) } else { 0 }
-    $brecha = [math]::Round($tasa - $Meta, 1)
+    $tasaNum = if ($den -ne 0) { [math]::Round(($num / $den) * 100, 1) } else { 0 }
+    $brechaNum = [math]::Round($tasaNum - $Meta, 1)
     $estado =
         if ($den -eq 0) { 'sin_datos' }
-        elseif ($tasa -ge 100) { 'verificar_dato' }
-        elseif ($tasa -ge $Meta) { 'cumple' }
-        elseif ($tasa -ge ($Meta - 5)) { 'cerca_meta' }
+        elseif ($tasaNum -ge 100) { 'verificar_dato' }
+        elseif ($tasaNum -ge $Meta) { 'cumple' }
+        elseif ($tasaNum -ge ($Meta - 5)) { 'cerca_meta' }
         else { 'critico' }
+    # tasa/meta/brecha se guardan como texto en formato invariante (punto decimal)
+    # para que el CSV y el JSON embebido en el dashboard sean validos sin importar
+    # la configuracion regional del equipo (aqui el separador decimal es coma).
     [PSCustomObject]@{
         periodo = $Periodo; agencia = $ag; numerador = $num; emision = $em; cancelada = $can
-        denominador = $den; tasa = $tasa; meta = $Meta; brecha = $brecha; estado = $estado
+        denominador = $den
+        tasa = $tasaNum.ToString('0.0', $ic)
+        meta = $Meta.ToString('0.0', $ic)
+        brecha = $brechaNum.ToString('0.0', $ic)
+        estado = $estado
     }
 }
 
